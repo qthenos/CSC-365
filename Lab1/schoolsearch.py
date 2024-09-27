@@ -36,7 +36,7 @@ def find_student_bus(lastname: str, data: list):
     busses = []
     for line in data:
         if line[0] == lastname:
-            busses.append(line[4])
+            busses.append(line[0], line[1], line[4])
     return busses
 
 def find_teacher_students(lastname: str, data: list):
@@ -48,9 +48,9 @@ def find_teacher_students(lastname: str, data: list):
 
 def students_take_bus(bus_route: int, data : list):
     students = []
-    for student in data:
-        if student[4] == bus_route:
-            students.append(student)
+    for line in data:
+        if line[4] == bus_route:
+            students.append([line[0], line[1], line[2], line[3]])
     return students
 
 def students_at_grade(grade: int, data: list):
@@ -85,17 +85,41 @@ def find_gpa_low(grade: int, data: list):
                 low = line
     return low
 
+def student_info(data: list):
+    counter = 0
+    results = []
+    for i in range(6):
+        for line in data:
+            if line[2] == i:
+                counter += 1
+        results.append((i, counter))
+        counter = 0
+    return results
+
 
 
 if __name__ == "__main__":
     userIn = ""
-    while userIn.lower() != "quit":
-        userIn = input("Your wish is my command!")
+    table_data = read_file()
 
-        
+    while userIn.lower() != "q":
+        userIn = input("Your wish is my command!\n")
+        data = userIn.split()
+        print(data)
 
+        if data[0].lower() == "s":
+            if len(data) < 3:
+                print(find_student_class(data[1], table_data))
+            else:
+                print(find_student_bus(data[1], table_data))
 
-    
-    print("hello")
-    print(read_file())
-    print("goodbye")
+        elif data[0].lower() == "t":
+            print(find_teacher_students(data[1], table_data))
+        elif data[0].lower() == "b":
+            print(students_take_bus(data[1]), table_data)
+        elif data[0].lower() == "g":
+            print(students_at_grade)
+        elif data[0].lower() == "a":
+            print(average_gpa_of_grade(data[1], table_data))
+        elif data[0].lower() == "i":
+            print(student_info)
