@@ -85,7 +85,17 @@ def find_gpa_low(grade: int, data: list):
                 low = line
     return low
 
+
+
 if __name__ == "__main__":
+    userIn = ""
+    while userIn.lower() != "quit":
+        userIn = input("Your wish is my command!")
+
+        
+
+
+    
     print("hello")
     print(read_file())
     print("goodbye")
