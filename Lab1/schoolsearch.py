@@ -21,6 +21,8 @@ def read_file():
     data = []
     for line in file:
         current_line = line.split(",")
+        if len(current_line) < 8:
+            return []
         data.append(current_line)
     return data
 
@@ -36,7 +38,7 @@ def find_student_bus(lastname: str, data: list):
     busses = []
     for line in data:
         if line[0] == lastname:
-            busses.append(line[4])
+            busses.append(line[0], line[1], line[4])
     return busses
 
 def find_teacher_students(lastname: str, data: list):
@@ -48,16 +50,16 @@ def find_teacher_students(lastname: str, data: list):
 
 def students_take_bus(bus_route: int, data : list):
     students = []
-    for student in data:
-        if student[4] == bus_route:
-            students.append(student)
+    for line in data:
+        if line[4] == bus_route:
+            students.append((line[0], line[1], line[2], line[3]))
     return students
 
-def students_at_grade(grade: int, data: list):
+def students_at_grade(grade: int, data: list, type=0):
     students = []
     for line in data:
         if line[2] == grade:
-            students.append(line)
+            students.append((line[0], line[1]))
     return students
 
 def average_gpa_of_grade(grade: int, data: list):
@@ -65,7 +67,7 @@ def average_gpa_of_grade(grade: int, data: list):
     count = 0
     for line in data:
         if line[2] == grade:
-            gpa_sum += line[5]
+            gpa_sum += float(line[5])
             count += 1
     return gpa_sum / count
 
@@ -85,7 +87,52 @@ def find_gpa_low(grade: int, data: list):
                 low = line
     return low
 
+def student_info(data: list):
+    results = []
+    for i in range(7):
+        counter = 0
+        for line in data:
+            if int(line[2]) == i:
+                counter += 1
+        results.append((i, counter))
+    return results
+
+
+
 if __name__ == "__main__":
-    print("hello")
-    print(read_file())
-    print("goodbye")
+    userIn = ""
+    table_data = read_file()
+    if table_data:
+        while True:
+            userIn = input("Your wish is my command!\n")
+            data = userIn.split()
+
+            if data[0].lower() == "s":
+                if len(data) < 3:
+                    print(find_student_class(data[1], table_data))
+                else:
+                    print(find_student_bus(data[1], table_data))
+
+            elif data[0].lower() == "t":
+                print(find_teacher_students(data[1], table_data))
+
+            elif data[0].lower() == "g":
+                if len(data) < 3:
+                    print(students_at_grade(data[1], table_data))
+                else:
+                    if data[2].lower() == "h":
+                        print(find_gpa_high(data[1], table_data))
+                    elif data[2].lower() == "l":
+                        print(find_gpa_low(data[1], table_data))
+
+            elif data[0].lower() == "b":
+                print(students_take_bus(data[1]), table_data)
+            elif data[0].lower() == "a":
+                print(average_gpa_of_grade(data[1], table_data))
+            elif data[0].lower() == "i":
+                print(student_info(table_data))
+            elif data[0].lower() == "q":
+                print("Quitting...!")
+                break
+    else:
+        print("students.txt has the wrong format")
