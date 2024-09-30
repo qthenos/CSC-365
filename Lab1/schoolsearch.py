@@ -29,23 +29,23 @@ def read_file():
 def find_student_class(lastname: str, data: list):
     students = []
     for line in data:
-        if line[0] == lastname:
-            class_data = [line[2], line[3], line[6], line[7]]
+        if line[0] == lastname.upper():
+            class_data = (line[0], line[1], line[2], line[3], line[6], line[7])
             students.append(class_data)
     return students
 
 def find_student_bus(lastname: str, data: list):
     busses = []
     for line in data:
-        if line[0] == lastname:
-            busses.append(line[0], line[1], line[4])
+        if line[0] == lastname.upper():
+            busses.append((line[0], line[1], line[4]))
     return busses
 
 def find_teacher_students(lastname: str, data: list):
     students = []
     for line in data:
-        if line[6] == lastname:
-            students.append(line)
+        if line[6] == lastname.upper():
+            students.append((line[0], line[1]))
     return students
 
 def students_take_bus(bus_route: int, data : list):
@@ -69,7 +69,7 @@ def average_gpa_of_grade(grade: int, data: list):
         if line[2] == grade:
             gpa_sum += float(line[5])
             count += 1
-    return gpa_sum / count
+    return round(gpa_sum / count, 2)
 
 def find_gpa_high(grade: int, data: list):
     high = data[0]
