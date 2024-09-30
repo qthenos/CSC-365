@@ -12,7 +12,7 @@ from schoolsearch import (
 )
 
 class TestSchoolSearch(unittest.TestCase):
-    def data(self):
+    def setUp(self):
         self.test_data = [
             ["SMITH", "JOHN", "3", "102", "22", "3.2", "BONITA", "AMY"],
             ["DOE", "JANE", "4", "203", "22", "3.5", "BROWN", "CHARLIE"],
