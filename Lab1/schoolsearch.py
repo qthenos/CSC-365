@@ -97,42 +97,55 @@ def student_info(data: list):
         results.append((i, counter))
     return results
 
+def main():
+    table_data = read_file()
+    
+    if not table_data:
+        print("students.txt has the wrong format")
+        return
 
+    while True:
+        userIn = input("Your wish is my command!\n").strip().lower()
+        data = userIn.split()
+
+        if not data:
+            print("Invalid command, please try again.")
+            continue
+        
+        command = data[0]
+
+
+        if command == "s":
+            if len(data) < 3:
+                print(find_student_class(data[1], table_data))
+            else:
+                print(find_student_bus(data[1], table_data))
+
+        elif command == "t":
+            print(find_teacher_students(data[1], table_data))
+
+        elif command == "g":
+            if len(data) < 3:
+                print(students_at_grade(data[1], table_data))
+            else:
+                if data[2].lower() == "h":
+                    print(find_gpa_high(data[1], table_data))
+                elif data[2].lower() == "l":
+                    print(find_gpa_low(data[1], table_data))
+
+        elif command == "b":
+            print(students_take_bus(data[1]), table_data)
+        elif command == "a":
+            print(average_gpa_of_grade(data[1], table_data))
+        elif command == "i":
+            print(student_info(table_data))
+        elif command == "q":
+            print("Quitting...!")
+            break
+        else:
+            print("Unknown command. Please try again.")
+
+    
 
 if __name__ == "__main__":
-    userIn = ""
-    table_data = read_file()
-    if table_data:
-        while True:
-            userIn = input("Your wish is my command!\n")
-            data = userIn.split()
-
-            if data[0].lower() == "s":
-                if len(data) < 3:
-                    print(find_student_class(data[1], table_data))
-                else:
-                    print(find_student_bus(data[1], table_data))
-
-            elif data[0].lower() == "t":
-                print(find_teacher_students(data[1], table_data))
-
-            elif data[0].lower() == "g":
-                if len(data) < 3:
-                    print(students_at_grade(data[1], table_data))
-                else:
-                    if data[2].lower() == "h":
-                        print(find_gpa_high(data[1], table_data))
-                    elif data[2].lower() == "l":
-                        print(find_gpa_low(data[1], table_data))
-
-            elif data[0].lower() == "b":
-                print(students_take_bus(data[1]), table_data)
-            elif data[0].lower() == "a":
-                print(average_gpa_of_grade(data[1], table_data))
-            elif data[0].lower() == "i":
-                print(student_info(table_data))
-            elif data[0].lower() == "q":
-                print("Quitting...!")
-                break
-    else:
-        print("students.txt has the wrong format")
+    main()
