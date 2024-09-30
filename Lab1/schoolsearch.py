@@ -1,4 +1,3 @@
-#free diddy
 # Paul Nassar & Andy Duong
 #Reference:     StLastName, StFirstName, Grade, Classroom, Bus, GPA, TLastName, TFirstName
 
@@ -48,44 +47,53 @@ def find_teacher_students(lastname: str, data: list):
             students.append((line[0], line[1]))
     return students
 
-def students_take_bus(bus_route: int, data : list):
+def students_take_bus(bus_route: str, data : list):
     students = []
     for line in data:
         if line[4] == bus_route:
             students.append((line[0], line[1], line[2], line[3]))
     return students
 
-def students_at_grade(grade: int, data: list, type=0):
+def students_at_grade(grade: str, data: list):
     students = []
     for line in data:
         if line[2] == grade:
-            students.append((line[0], line[1]))
+            students.append(line)
     return students
 
-def average_gpa_of_grade(grade: int, data: list):
+def average_gpa_of_grade(grade: str, data: list):
     gpa_sum = 0
     count = 0
     for line in data:
         if line[2] == grade:
             gpa_sum += float(line[5])
             count += 1
-    return round(gpa_sum / count, 2)
+    if count == 0:
+        return ""
+    else:
+        return round(gpa_sum / count, 2)
 
-def find_gpa_high(grade: int, data: list):
-    high = data[0]
-    for line in data:
-        if line[2] == grade:
-            if line[5] > high[5]:
-                high = line
-    return high
+def find_gpa_high(grade: str, data: list):
+    if students_at_grade(grade, data) == []:
+        return []
+    else:
+        high = students_at_grade(grade, data)[0]
+        for line in data:
+            if line[2] == grade:
+                if line[5] > high[5]:
+                    high = line
+        return [high]
 
-def find_gpa_low(grade: int, data: list):
-    low = data[0]
-    for line in data:
-        if line[2] == grade:
-            if line[5] < low[5]:
-                low = line
-    return low
+def find_gpa_low(grade: str, data: list):
+    if students_at_grade(grade, data) == []:
+        return []
+    else:
+        low = students_at_grade(grade, data)[0]
+        for line in data:
+            if line[2] == grade:
+                if line[5] < low[5]:
+                    low = line
+        return [low]
 
 def student_info(data: list):
     results = []
@@ -96,6 +104,10 @@ def student_info(data: list):
                 counter += 1
         results.append((i, counter))
     return results
+
+def print_studs(studs: list):
+    for stud in studs:
+        print(",".join(stud)) if stud else print("")
 
 def main():
     table_data = read_file()
@@ -109,36 +121,46 @@ def main():
         data = userIn.split()
 
         if not data:
-            print("Invalid command, please try again.")
+            print("Unknown command, please try again.")
             continue
         
         command = data[0]
 
-
         if command == "s":
-            if len(data) < 3:
-                print(find_student_class(data[1], table_data))
+            if len(data) < 4:
+                stud = find_student_class(data[2], table_data)
+                print_studs(stud)
             else:
-                print(find_student_bus(data[1], table_data))
+                if data[3] == "b":
+                    stud = find_student_bus(data[2], table_data)
+                    print_studs(stud)
+                else:
+                    print("Unknown command. Please try again.")
 
         elif command == "t":
-            print(find_teacher_students(data[1], table_data))
+            stud = find_teacher_students(data[2], table_data)
+            print_studs(stud)
 
         elif command == "g":
-            if len(data) < 3:
-                print(students_at_grade(data[1], table_data))
+            if len(data) < 4:
+                stud = [(line[0], line[1]) for line in students_at_grade(data[2], table_data)]
+                print_studs(stud)
             else:
-                if data[2].lower() == "h":
-                    print(find_gpa_high(data[1], table_data))
-                elif data[2].lower() == "l":
-                    print(find_gpa_low(data[1], table_data))
+                if data[3].lower() == "h":
+                    stud = find_gpa_high(data[2], table_data)
+                    print_studs(stud)
+                elif data[3].lower() == "l":
+                    stud = find_gpa_low(data[2], table_data)
+                    print_studs(stud)
 
         elif command == "b":
-            print(students_take_bus(data[1]), table_data)
+            stud = students_take_bus(data[2], table_data)
+            print_studs(stud)
         elif command == "a":
-            print(average_gpa_of_grade(data[1], table_data))
+            print(average_gpa_of_grade(data[2], table_data))
         elif command == "i":
-            print(student_info(table_data))
+            info = [f'{line[0]}:{line[1]}' for line in student_info(table_data)]
+            print(", ".join(info))
         elif command == "q":
             print("Quitting...!")
             break

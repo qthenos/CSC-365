@@ -1,0 +1,68 @@
+Your wish is my command!
+S : HAVIR
+HAVIR,BOBBIE,2,108,HAMER,GAVIN
+
+Your wish is my command!
+S : NEMO
+Your wish is my command!
+S : HAVIR B
+HAVIR,BOBBIE,0
+Your wish is my command!
+S : HAVIR 2
+Unknown command. Please try again.
+Your wish is my command!
+T : HANTZ
+CORKER,CARTER
+IMMERMAN,DEVIN
+RAPOSE,ALONZO
+OGAS,ERVIN
+MASSART,ELDON
+BEX,TAMESHA
+Your wish is my command!
+T : nobody
+Your wish is my command!
+G : 1
+SAELEE,DANILO
+GARTH,JOHN
+Your wish is my command!
+G : 0
+Your wish is my command!
+B : 0
+SCHOENECKER,PHUONG,6,109
+FINCHMAN,MATHILDA,6,111
+BRODERSEN,HYE,3,110
+HAVIR,BOBBIE,2,108
+MASSART,ELDON,4,105
+GARTH,JOHN,1,103
+CREMEANS,RANDOLPH,6,109
+KREESE,CARRIE,6,109
+Your wish is my command!
+B : 101
+Your wish is my command!
+G : 2 H
+WICINSKY,TERESE,2,108,53,3.22,HAMER,GAVIN
+
+Your wish is my command!
+G : 0 H
+Your wish is my command!
+G : 1 L
+SAELEE,DANILO,1,103,54,2.85,FALKER,ADOLPH
+
+Your wish is my command!
+A : 2
+2.95
+Your wish is my command!
+A : 0
+
+Your wish is my command!
+I
+0:0, 1:2, 2:13, 3:9, 4:15, 5:0, 6:21
+Your wish is my command!
+abcd
+Unknown command. Please try again.
+Your wish is my command!
+ 
+Unknown command, please try again.
+Your wish is my command!
+Q
+Quitting...!
