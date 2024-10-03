@@ -1,5 +1,6 @@
 import unittest
 from schoolsearch import (
+    read_file,
     find_student_class,
     find_student_bus,
     find_teacher_students,
@@ -13,58 +14,87 @@ from schoolsearch import (
 
 class TestSchoolSearch(unittest.TestCase):
     def setUp(self):
-        self.test_data = [
-            ["SMITH", "JOHN", "3", "102", "22", "3.2", "BONITA", "AMY"],
-            ["DOE", "JANE", "4", "203", "22", "3.5", "BROWN", "CHARLIE"],
-            ["SMITH", "EMILY", "3", "102", "15", "3.9", "BONITA", "AMY"],
-            ["KINGSTON", "MICHAEL", "4", "203", "17", "2.8", "BROWN", "CHARLIE"],
-        ]
+        self.test_data = read_file()
 
-    def test_find_student_class(self):
-        result = find_student_class("SMITH", self.test_data)
-        self.assertEqual(result, [("SMITH", "JOHN", '3', '102', 'BONITA', 'AMY'), ("SMITH", "EMILY",'3', '102', 'BONITA', 'AMY')])
+    def test_TC1(self):
+        result = find_student_class("HAVIR", self.test_data)
+        self.assertEqual(result, [("HAVIR", "BOBBIE", '2', '108', 'HAMER', 'GAVIN\n')])
+    
+    def test_TC2(self):
+        result = find_student_class("NEMO", self.test_data)
+        self.assertEqual(result, [])
 
-    def test_find_student_bus(self):
-        result = find_student_bus("DOE", self.test_data)
-        self.assertEqual(result, [('DOE', 'JANE', '22')])
+    #TC3 needs to be tested manually
 
-    def test_find_teacher_students(self):
-        result = find_teacher_students("BONITA", self.test_data)
-        self.assertEqual(result, [("SMITH", "JOHN"),("SMITH", "EMILY")])
+    def test_TC4(self):
+        result = find_student_bus("HAVIR", self.test_data)
+        self.assertEqual(result, [('HAVIR', 'BOBBIE', '0')])
+    
+    #TC5 needs to be tested manually
+        
+    def test_TC6(self):
+        result = find_teacher_students("HANTZ", self.test_data)
+        self.assertEqual(result, [
+            ("CORKER", "CARTER"),  ("IMMERMAN", "DEVIN"), ("RAPOSE","ALONZO"), ("OGAS","ERVIN"), ("MASSART","ELDON"), ("BEX","TAMESHA")
+            ])
+        
+    def test_TC7(self):
+        result = find_teacher_students("nobody", self.test_data)
+        self.assertEqual(result, [])
 
-    def test_students_take_bus(self):
-        result = students_take_bus("22", self.test_data)
-        self.assertEqual(result, [('SMITH', 'JOHN', '3', '102'), ('DOE', 'JANE', '4', '203')])
+    def test_TC8(self):
+        result = students_at_grade("1", self.test_data)
+        self.assertEqual(result, [
+            ["SAELEE","DANILO","1","103","54","2.85","FALKER","ADOLPH\n"],
+            ["GARTH","JOHN","1","103","0","3.14","FALKER","ADOLPH\n"]
+        ])
+    
+    def test_TC9(self):
+        result = students_at_grade("0", self.test_data)
+        self.assertEqual(result, [])
+        
+    def test_TC10(self):
+        result = students_take_bus("0", self.test_data)
+        self.assertEqual(result, 
+                [("SCHOENECKER","PHUONG","6","109")
+                , ("FINCHMAN","MATHILDA","6","111")
+                , ("BRODERSEN","HYE","3","110")
+                , ("HAVIR","BOBBIE","2","108")
+                , ("MASSART","ELDON","4","105")
+                , ("GARTH","JOHN","1","103")
+                , ("CREMEANS","RANDOLPH","6","109")
+                , ("KREESE","CARRIE","6","109")])
 
-    def test_students_at_grade(self):
-        result = students_at_grade("3", self.test_data)
-        self.assertEqual(result, [('SMITH', 'JOHN'), ('SMITH', 'EMILY')])
+    def test_TC11(self):
+        result = students_take_bus(101, self.test_data)
+        self.assertEqual(result, [])
 
-    def test_average_gpa_of_grade(self):
-        result = average_gpa_of_grade("4", self.test_data)
-        self.assertAlmostEqual(result, 3.15)
+    def test_TC12(self):
+        result = find_gpa_high("2", self.test_data)
+        self.assertEqual(result, [["WICINSKY","TERESE","2","108","53","3.22","HAMER","GAVIN\n"]])
 
-    def test_find_gpa_high(self):
-        result = find_gpa_high("3", self.test_data)
-        self.assertEqual(result, ['SMITH', 'EMILY', '3', '102', '15', '3.9', 'BONITA', 'AMY'])
+    def test_TC13(self):
+        result = find_gpa_high("0", self.test_data)
+        self.assertEqual(result, [])
+        
+    def test_TC14(self):
+        result = find_gpa_low("1", self.test_data)
+        self.assertEqual(result, [["SAELEE","DANILO","1","103","54","2.85","FALKER","ADOLPH\n"]])
 
-    def test_find_gpa_low(self):
-        result = find_gpa_low("4", self.test_data)
-        self.assertEqual(result, ['KINGSTON', 'MICHAEL', '4', '203', '17', '2.8', 'BROWN', 'CHARLIE'])
+    def test_TC15(self):
+        result = average_gpa_of_grade("2", self.test_data)
+        self.assertEqual(result, 2.95)
 
-    def test_student_info(self):
+    def test_TC16(self):
+        result = average_gpa_of_grade("0", self.test_data)
+        self.assertEqual(result, "")
+
+    def test_TC17(self):
         result = student_info(self.test_data)
-        self.assertEqual(result, [(0, 0), (1, 0), (2, 0), (3, 2), (4, 2), (5, 0), (6, 0)])
+        self.assertEqual(result, [(0, 0), (1, 2), (2, 13), (3, 9), (4, 15), (5, 0), (6, 21)])
 
-    def test_invalid_bus_route(self):
-        # Testing a bus route that doesn't exist
-        result = students_take_bus("67", self.test_data)
-        self.assertEqual(result, [])
-
-    def test_invalid_student_lastname(self):
-        # Testing a student last name that doesn't exist
-        result = find_student_class("Nobody", self.test_data)
-        self.assertEqual(result, [])
+    #TC-18 has to be tested manually
+    #TC-19 has to be tested manually    
 
 if __name__ == "__main__":
     unittest.main()

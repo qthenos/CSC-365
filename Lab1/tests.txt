@@ -1,0 +1,131 @@
+// CSC 365
+// Lab 1-a test suite
+// TC-1
+// Tests Requirements R3, R4
+// short form command name, existing student
+// expected output: HAVIR,BOBBIE,2,108,HAMER,GAVIN
+S : HAVIR
+
+// TC-2
+// Tests Requirements R3, R4
+// short form command name, non-existing student
+// expected output: <empty line>
+S : NEMO
+
+// TC-3
+// Tests Requirments R3, R13
+// quit command
+// expected output: program terminates
+Q
+
+// TC-4
+// Tests Requirements R3, R5
+// short form command name, existing student, bus check
+// expected output: HAVIR,BOBBIE,0
+S : HAVIR B
+
+// TC-5
+// Tests Requirements R3, R5
+// short form command name, existing student, incorrect extra argument
+// expected output: "Unknown command. Please try again."
+S : HAVIR 2
+
+// TC-6
+// Tests Requirements R3, R6
+// short form command name, existing teacher
+// expected output: 
+// CORKER,CARTER
+// IMMERMAN,DEVIN
+// RAPOSE,ALONZO
+// OGAS,ERVIN
+// MASSART,ELDON
+// BEX,TAMESHA
+T : HANTZ
+
+// TC-7
+// Tests Requirements R3, R6
+// short form command name, non-existing teacher
+// expected output: 
+T : nobody 
+
+// TC-8
+// Tests Requirements R3, R7
+// short form command name, non-empty grade level
+// expected output: 
+// SAELEE,DANILO
+// GARTH,JOHN
+G : 1
+
+// TC-9
+// Tests Requirements R3, R7
+// short form command name, empty grade level
+// expected output: 
+G : 0
+
+// TC-10
+// Tests Requirements R3, R8
+// short form command name, non-empty bus route
+// expected output: 
+// SCHOENECKER,PHUONG,6,109
+// FINCHMAN,MATHILDA,6,111
+// BRODERSEN,HYE,3,110
+// HAVIR,BOBBIE,2,108
+// MASSART,ELDON,4,105
+// GARTH,JOHN,1,103
+// CREMEANS,RANDOLPH,6,109
+// KREESE,CARRIE,6,109
+B : 0
+
+// TC-11
+// Tests Requirements R3, R8
+// short form command name, empty bus route
+// expected output: 
+B : 101
+
+// TC-12
+// Tests Requirements R3, R9
+// short form command name, existing grade
+// expected output: WICINSKY,TERESE,2,108,53,3.22,HAMER,GAVIN
+G : 2 H
+
+// TC-13
+// Tests Requirements R3, R9
+// short form command name, empty grade
+// expected output: 
+G : 0 H
+
+// TC-14
+// Tests Requirements R3, R9
+// short form command name, existing grade
+// expected output: SAELEE,DANILO,1,103,54,2.85,FALKER,ADOLPH
+G : 1 L
+
+// TC-15
+// Tests Requirements R3, R10
+// short form command name, existing grade
+// expected output: 2.95
+A : 2
+
+// TC-16
+// Tests Requirements R3, R10
+// short form command name, empty grade
+// expected output: 
+A : 0
+
+// TC-17
+// Tests Requirements R3, R11
+// short form command name
+// expected output: 0:0, 1:2, 2:13, 3:9, 4:15, 5:0, 6:21
+I
+
+// TC-18
+// Tests Requirements E1
+// invalid command
+// expected output: printed to screen "Unknown command. Please try again."
+abcd
+
+// TC-19
+// Tests Requirements E1
+// invalid command
+// expected output: printed to screen "Unknown command, please try again."
+""
