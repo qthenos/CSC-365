@@ -68,7 +68,8 @@ def students_at_grade(grade: str, stud_data: list, teach_data): #part2 done
     for line in stud_data:
         if line[2] == grade:
             teacher = find_teacher(line[3], teach_data)
-            students.append([line[0], line[1], line[2], line[3], line[4], line[5], teacher[0], teacher[1]])
+            gpa = line[5].strip()
+            students.append([line[0], line[1], line[2], line[3], line[4], gpa, teacher[0], teacher[1]])
     return students
 
 #R8
@@ -86,15 +87,11 @@ def find_gpa_high(grade: str, stud_data: list, teach_data : list):#part 2 done
         return []
     
     high = students[0]
-    for line in stud_data:
+    for line in students:
         if line[2] == grade:
             if line[5] > high[5]:
                 high = line
-
-    high[5] = high[5].strip()
-    teacher = find_teacher(high[3], teach_data)
-    high.append(teacher[0])
-    high.append(teacher[1])
+    
     return [high]
 
 #R9 (b)
@@ -104,14 +101,10 @@ def find_gpa_low(grade: str, stud_data: list, teach_data : list): #part 2 done
         return []
     
     low = students[0]
-    for line in stud_data:
+    for line in students:
         if line[2] == grade:
             if line[5] < low[5]:
                 low = line
-    low[5] = low[5].strip()
-    teacher = find_teacher(low[3], teach_data)
-    low.append(teacher[0])
-    low.append(teacher[1])
     return [low]
 
 #R10
@@ -181,6 +174,10 @@ def enrollments_report(stud_data: list):
     print("Enrollment Report: ")
     for key in sorted_classes:
         print(f"Class {key}:  {sorted_classes[key]} Student{"s" if sorted_classes[key] > 1 else ""}")
+
+#NR5
+def getAnalytics():
+    pass
 
 def print_studs(studs: list):
     for stud in studs:
