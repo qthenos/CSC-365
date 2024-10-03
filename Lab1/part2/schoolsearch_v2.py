@@ -160,6 +160,13 @@ def teachers_in_grade(grade_num: str, stud_data: list, teach_data: list):
             teachers.append(line)
     return teachers
 
+#Dictionary Sorting Helper
+def sort_dict(myDict: dict):
+    keys = list(myDict.keys())
+    keys.sort()
+    return {i: myDict[i] for i in keys}
+
+
 #NR4
 def enrollments_report(stud_data: list):
     classes = {}
@@ -168,16 +175,70 @@ def enrollments_report(stud_data: list):
             classes[line[3]] = 1
         else:
             classes[line[3]] += 1
-    keys = list(classes.keys())
-    keys.sort()
-    sorted_classes = {i: classes[i] for i in keys}
+    sorted_classes = sort_dict(classes)
     print("Enrollment Report: ")
     for key in sorted_classes:
         print(f"Class {key}:  {sorted_classes[key]} Student{"s" if sorted_classes[key] > 1 else ""}")
 
+#NR5 (a)
+def grade_analytics(stud_data: list):
+    grades = {}
+    for line in stud_data:
+        if line[2] not in grades.keys():
+            grades[line[2]] = average_gpa_of_grade(line[2], stud_data)
+    sorted_grades = sort_dict(grades)
+    for key in sorted_grades:
+        print(f"Grade {key}:  {sorted_grades[key]} GPA")
+
+#NR5 (b)
+def teacher_analytics(stud_data: list, teach_data: list):
+    teachers = {}
+    teachers_counts = {}
+    classes_to_teachers = {}
+    for line in teach_data:
+        if float(line[2]) not in classes_to_teachers.keys():
+            classes_to_teachers[float(line[2])] = [f"{line[0], line[1]}"]
+        else:
+            classes_to_teachers[float(line[2])].append(f"{line[0], line[1]}")
+        teachers[f"{line[0], line[1]}"] = 0
+        teachers_counts[f"{line[0], line[1]}"] = 0
+    for line in stud_data:
+        for teacher in classes_to_teachers[float(line[3])]:
+            teachers[teacher] += float(line[5])
+            teachers_counts[teacher] += 1
+    for teacher in teachers:
+        teachers[teacher] = round(teachers[teacher] / teachers_counts[teacher], 2)
+    sorted_teachers = sort_dict(teachers)
+    for key in sorted_teachers:
+        print(f"Teacher {key}:  {sorted_teachers[key]} GPA")
+
+#NR5 (c)
+def bus_analytics(stud_data: list):
+    busses = {}
+    busses_counts = {}
+    for line in stud_data:
+        if line[4] not in busses.keys():
+            busses[line[4]] = float(line[5])
+            busses_counts[line[4]] = 1
+        else:
+            busses[line[4]] += float(line[5])
+            busses_counts[line[4]] += 1
+    for bus in busses:
+        busses[bus] = round(busses[bus] / busses_counts[bus], 2)
+    sorted_busses = sort_dict(busses)
+    for key in sorted_busses:
+        print(f"Bus {key}:  {sorted_busses[key]} GPA")
+
 #NR5
-def getAnalytics():
-    pass
+def getAnalytics(stud_data: list, teach_data: list, selection: str):
+    if selection == "g":
+        grade_analytics(stud_data)
+    elif selection == "t":
+        teacher_analytics(stud_data, teach_data)
+    elif selection == "b":
+        bus_analytics(stud_data)
+    else:
+        print("Invalid Analytics Selection")
 
 def print_studs(studs: list):
     for stud in studs:
