@@ -297,6 +297,8 @@ def main():
         elif command == "i":
             info = [f'{line[0]}:{line[1]}' for line in student_info(stud_data)]
             print(", ".join(info))
+        elif command == "analyze":
+            getAnalytics(stud_data, teach_data, data[2])
         elif command == "q":
             print("Quitting...!")
             break
