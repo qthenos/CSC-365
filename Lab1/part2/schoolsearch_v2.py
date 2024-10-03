@@ -1,5 +1,6 @@
 # Paul Nassar & Andy Duong
-#Reference:     StLastName, StFirstName, Grade, Classroom, Bus, GPA, TLastName, TFirstName
+#list.txt:          StLastName, StFirstName, Grade, Classroom, Bus, GPA
+#teachers.txt:      LastName, TFirstName, Classroom
 
 #TODO
 """
@@ -29,6 +30,7 @@ def find_teacher(classNum, teach_data:list):
             return [line[0], line[1]]
     return None
 
+#R4
 def find_student_class(lastname: str, stud_data: list, teach_data : list): #part2 done
     students = []
     for line in stud_data:
@@ -38,6 +40,7 @@ def find_student_class(lastname: str, stud_data: list, teach_data : list): #part
             students.append(class_data)
     return students
 
+#R5
 def find_student_bus(lastname: str, stud_data: list): #part2 done
     busses = []
     for line in stud_data:
@@ -45,6 +48,7 @@ def find_student_bus(lastname: str, stud_data: list): #part2 done
             busses.append((line[0], line[1], line[4]))
     return busses
 
+#R6
 def find_teacher_students(lastname: str, stud_data: list, teach_data : list): #part2 done
     students = []
     classNum = 0
@@ -58,13 +62,7 @@ def find_teacher_students(lastname: str, stud_data: list, teach_data : list): #p
             students.append((line[0], line[1]))
     return students
 
-def students_take_bus(bus_route: str, stud_data : list): #part 2 done
-    students = []
-    for line in stud_data:
-        if line[4] == bus_route:
-            students.append((line[0], line[1], line[2], line[3]))
-    return students
-
+#R7
 def students_at_grade(grade: str, stud_data: list, teach_data): #part2 done
     students = []
     for line in stud_data:
@@ -73,18 +71,15 @@ def students_at_grade(grade: str, stud_data: list, teach_data): #part2 done
             students.append([line[0], line[1], line[2], line[3], line[4], line[5], teacher[0], teacher[1]])
     return students
 
-def average_gpa_of_grade(grade: str, stud_data: list): #part 2 done
-    gpa_sum = 0
-    count = 0
+#R8
+def students_take_bus(bus_route: str, stud_data : list): #part 2 done
+    students = []
     for line in stud_data:
-        if line[2] == grade:
-            gpa_sum += float(line[5])
-            count += 1
-    if count == 0:
-        return ""
-    else:
-        return round(gpa_sum / count, 2)
+        if line[4] == bus_route:
+            students.append((line[0], line[1], line[2], line[3]))
+    return students
 
+#R9 (a)
 def find_gpa_high(grade: str, stud_data: list, teach_data : list):#part 2 done
     students = students_at_grade(grade, stud_data, teach_data)
     if not students:
@@ -102,6 +97,7 @@ def find_gpa_high(grade: str, stud_data: list, teach_data : list):#part 2 done
     high.append(teacher[1])
     return [high]
 
+#R9 (b)
 def find_gpa_low(grade: str, stud_data: list, teach_data : list): #part 2 done
     students = students_at_grade(grade, stud_data, teach_data)
     if not students:
@@ -118,6 +114,20 @@ def find_gpa_low(grade: str, stud_data: list, teach_data : list): #part 2 done
     low.append(teacher[1])
     return [low]
 
+#R10
+def average_gpa_of_grade(grade: str, stud_data: list): #part 2 done
+    gpa_sum = 0
+    count = 0
+    for line in stud_data:
+        if line[2] == grade:
+            gpa_sum += float(line[5])
+            count += 1
+    if count == 0:
+        return ""
+    else:
+        return round(gpa_sum / count, 2)
+
+#R11
 def student_info(stud_data: list): #pt2 done
     results = []
     for i in range(7):
@@ -127,6 +137,50 @@ def student_info(stud_data: list): #pt2 done
                 counter += 1
         results.append((i, counter))
     return results
+
+#NR1
+def students_in_class(class_num: str, stud_data: list, teach_data: list):
+    students = []
+    for line in stud_data:
+        if line[2] == class_num:
+            teacher = find_teacher(line[3], teach_data)
+            students.append([line[0], line[1], line[2], line[3], line[4], line[5], teacher[0], teacher[1]])
+    return students
+
+#NR2
+def teachers_in_class(class_num: str, teach_data: list):
+    teachers = []
+    for line in teach_data:
+        if line[2] == class_num:
+            teachers.append(line)
+    return teachers
+
+#NR3
+def teachers_in_grade(grade_num: str, stud_data: list, teach_data: list):
+    classrooms = []
+    teachers = []
+    for line in stud_data:
+        if line[2] == grade_num and line[3] not in classrooms:
+            classrooms.append(line[3])
+    for line in teach_data:
+        if line[2] in classrooms:
+            teachers.append(line)
+    return teachers
+
+#NR4
+def enrollments_report(stud_data: list):
+    classes = {}
+    for line in stud_data:
+        if line[3] not in classes.keys():
+            classes[line[3]] = 1
+        else:
+            classes[line[3]] += 1
+    keys = list(classes.keys())
+    keys.sort()
+    sorted_classes = {i: classes[i] for i in keys}
+    print("Enrollment Report: ")
+    for key in sorted_classes:
+        print(f"Class {key}:  {sorted_classes[key]} Student{"s" if sorted_classes[key] > 1 else ""}")
 
 def print_studs(studs: list):
     for stud in studs:
