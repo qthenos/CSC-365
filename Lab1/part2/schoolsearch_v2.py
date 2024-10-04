@@ -256,7 +256,16 @@ def main():
         return
 
     while True:
-        userIn = input("\nYour wish is my command!\n").strip().lower()
+        userIn = input("\nCommands:\
+                       \nS[tudent]: <lastname> [B[us]] \
+                       \nT[eacher]: <lastname> \
+                       \nB[us]: <number> \
+                        \nG[rade]: <number> [H[igh]|L[ow]|T[eacher]] \
+                        \nC[lass]: <number> [T[eacher]|S[tudents]] \
+                       \nA[verage]: <number> \
+                       \nI[nfo] \
+                        \nAnalyze: <G[rade] or T[eacher] or B[us]>\
+                       \nQ[uit]\n").strip().lower()
         data = userIn.split()
 
         if not data:
@@ -304,10 +313,10 @@ def main():
             print(", ".join(info))
         elif command == "analyze":
             getAnalytics(stud_data, teach_data, data[2])
-        elif command == "class":
-            if data[3] == "students":
+        elif command == "c":
+            if data[3].lower() == "s":
                 print_studs(students_in_class(data[2], stud_data, teach_data))
-            elif data[3] == "teacher":
+            elif data[3].lower() == "t":
                 print_studs(teachers_in_class(data[2], teach_data))
         elif command == "enrollment":
             print("Enrollment Report: ")
