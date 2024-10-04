@@ -10,6 +10,13 @@ from schoolsearch_v2 import (
     find_gpa_high,
     find_gpa_low,
     student_info,
+    students_in_class,
+    teachers_in_class,
+    teachers_in_grade,
+    enrollments_report,
+    grade_analytics,
+    teacher_analytics,
+    bus_analytics
 )
 
 class TestSchoolSearch(unittest.TestCase):
@@ -98,21 +105,46 @@ class TestSchoolSearch(unittest.TestCase):
     #TC-19 has to be tested manually    
 
     def test_TC20(self):
-        pass
+        result = students_in_class("105", self.stud_data, self.teacher_data)
+        self.assertEqual(result, [['CORKER', 'CARTER', '4', '105', '53', '3.12', 'HANTZ', 'JED'], 
+                                  ['IMMERMAN', 'DEVIN', '4', '105', '52', '2.78', 'HANTZ', 'JED'], 
+                                  ['RAPOSE', 'ALONZO', '4', '105', '51', '3.12', 'HANTZ', 'JED'], 
+                                  ['OGAS', 'ERVIN', '4', '105', '54', '2.84', 'HANTZ', 'JED'], 
+                                  ['MASSART', 'ELDON', '4', '105', '0', '2.8', 'HANTZ', 'JED'], 
+                                  ['BEX', 'TAMESHA', '4', '105', '55', '2.82', 'HANTZ', 'JED']])
     def test_TC21(self):
-        pass
+        result = students_in_class("115", self.stud_data, self.teacher_data)
+        self.assertEqual(result, [])
+
     def test_TC22(self):
-        pass
+        result = teachers_in_class("105", self.teacher_data)
+        self.assertEqual(result, [('HANTZ', 'JED')])
     def test_TC23(self):
-        pass
+        result = teachers_in_class("115", self.teacher_data)
+        self.assertEqual(result, [])
     def test_TC24(self):
-        pass
+        result = teachers_in_grade("3", self.stud_data, self.teacher_data)
+        self.assertEqual(result, [('FAFARD', 'ROCIO', '107'), ('ALPERT', 'JONATHAN', '110')])
     def test_TC25(self):
-        pass
+        result = teachers_in_grade("7", self.stud_data, self.teacher_data)
+        self.assertEqual(result, [])
     def test_TC26(self):
-        pass
+        result = enrollments_report(self.stud_data)
+        self.assertEqual(result, {'101': 1, '102': 5, '103': 2, '104': 2, '105': 6, '106': 2, '107': 7, '108': 11, '109': 5, '110': 2, '111': 9, '112': 8})
     def test_TC27(self):
-        pass
+        result = grade_analytics(self.stud_data)
+        self.assertEqual(result, {'1': 3.0, '2': 2.95, '3': 3.05, '4': 2.95, '6': 2.98})
+    def test_TC28(self):
+        result = teacher_analytics(self.stud_data, self.teacher_data)
+        self.assertEqual(result, {"('ALPERT', 'JONATHAN')": 3.17, "('BODZIONY', 'LUZ')": 3.09, 
+                                  "('CHIONCHIO', 'PERLA')": 2.98, "('COOL', 'REUBEN')": 2.91, 
+                                  "('FAFARD', 'ROCIO')": 3.01, "('FALKER', 'ADOLPH')": 3.0, 
+                                  "('GAMBREL', 'JAE')": 2.96, "('HAMER', 'GAVIN')": 2.95, 
+                                  "('HANTZ', 'JED')": 2.91, "('KERBS', 'BENITO')": 2.98, 
+                                  "('NISTENDIRK', 'NANCY')": 2.96, "('STEIB', 'GALE')": 2.9})
+    def test_TC29(self):
+        result = bus_analytics(self.stud_data)
+        self.assertEqual(result, {'0': 2.95, '51': 3.02, '52': 2.88, '53': 3.06, '54': 2.94, '55': 3.04, '56': 2.92})
 
 
 if __name__ == "__main__":

@@ -135,17 +135,17 @@ def student_info(stud_data: list): #pt2 done
 def students_in_class(class_num: str, stud_data: list, teach_data: list):
     students = []
     for line in stud_data:
-        if line[2] == class_num:
+        if line[3] == class_num:
             teacher = find_teacher(line[3], teach_data)
-            students.append([line[0], line[1], line[2], line[3], line[4], line[5], teacher[0], teacher[1]])
+            students.append([line[0], line[1], line[2], line[3], line[4], line[5].strip(), teacher[0], teacher[1]])
     return students
 
 #NR2
 def teachers_in_class(class_num: str, teach_data: list):
     teachers = []
     for line in teach_data:
-        if line[2] == class_num:
-            teachers.append(line)
+        if line[2].strip() == class_num:
+            teachers.append((line[0], line[1]))
     return teachers
 
 #NR3
@@ -156,8 +156,8 @@ def teachers_in_grade(grade_num: str, stud_data: list, teach_data: list):
         if line[2] == grade_num and line[3] not in classrooms:
             classrooms.append(line[3])
     for line in teach_data:
-        if line[2] in classrooms:
-            teachers.append(line)
+        if line[2].strip() in classrooms:
+            teachers.append((line[0], line[1], line[2].strip()))
     return teachers
 
 #Dictionary Sorting Helper
@@ -176,9 +176,7 @@ def enrollments_report(stud_data: list):
         else:
             classes[line[3]] += 1
     sorted_classes = sort_dict(classes)
-    print("Enrollment Report: ")
-    for key in sorted_classes:
-        print(f"Class {key}:  {sorted_classes[key]} Student{"s" if sorted_classes[key] > 1 else ""}")
+    return sorted_classes
 
 #NR5 (a)
 def grade_analytics(stud_data: list):
@@ -187,8 +185,7 @@ def grade_analytics(stud_data: list):
         if line[2] not in grades.keys():
             grades[line[2]] = average_gpa_of_grade(line[2], stud_data)
     sorted_grades = sort_dict(grades)
-    for key in sorted_grades:
-        print(f"Grade {key}:  {sorted_grades[key]} GPA")
+    return sorted_grades
 
 #NR5 (b)
 def teacher_analytics(stud_data: list, teach_data: list):
@@ -209,8 +206,7 @@ def teacher_analytics(stud_data: list, teach_data: list):
     for teacher in teachers:
         teachers[teacher] = round(teachers[teacher] / teachers_counts[teacher], 2)
     sorted_teachers = sort_dict(teachers)
-    for key in sorted_teachers:
-        print(f"Teacher {key}:  {sorted_teachers[key]} GPA")
+    return sorted_teachers
 
 #NR5 (c)
 def bus_analytics(stud_data: list):
@@ -226,17 +222,24 @@ def bus_analytics(stud_data: list):
     for bus in busses:
         busses[bus] = round(busses[bus] / busses_counts[bus], 2)
     sorted_busses = sort_dict(busses)
-    for key in sorted_busses:
-        print(f"Bus {key}:  {sorted_busses[key]} GPA")
+    return sorted_busses
 
 #NR5
 def getAnalytics(stud_data: list, teach_data: list, selection: str):
     if selection == "g":
-        grade_analytics(stud_data)
+        sorted_grades = grade_analytics(stud_data)
+        for key in sorted_grades:
+            print(f"Grade {key}:  {sorted_grades[key]} GPA")
+
     elif selection == "t":
-        teacher_analytics(stud_data, teach_data)
+        sorted_teachers = teacher_analytics(stud_data, teach_data)
+        for key in sorted_teachers:
+            print(f"Teacher {key}:  {sorted_teachers[key]} GPA")
+
     elif selection == "b":
-        bus_analytics(stud_data)
+        sorted_busses = bus_analytics(stud_data)
+        for key in sorted_busses:
+            print(f"Bus {key}:  {sorted_busses[key]} GPA")
     else:
         print("Invalid Analytics Selection")
 
@@ -253,7 +256,7 @@ def main():
         return
 
     while True:
-        userIn = input("Your wish is my command!\n").strip().lower()
+        userIn = input("\nYour wish is my command!\n").strip().lower()
         data = userIn.split()
 
         if not data:
@@ -288,6 +291,8 @@ def main():
                 elif data[3].lower() == "l":
                     stud = find_gpa_low(data[2], stud_data, teach_data)
                     print_studs(stud)
+                elif data[3].lower() == "t":
+                    print_studs(teachers_in_grade(data[2], stud_data, teach_data))
 
         elif command == "b":
             stud = students_take_bus(data[2], stud_data)
@@ -299,6 +304,16 @@ def main():
             print(", ".join(info))
         elif command == "analyze":
             getAnalytics(stud_data, teach_data, data[2])
+        elif command == "class":
+            if data[3] == "students":
+                print_studs(students_in_class(data[2], stud_data, teach_data))
+            elif data[3] == "teacher":
+                print_studs(teachers_in_class(data[2], teach_data))
+        elif command == "enrollment":
+            print("Enrollment Report: ")
+            sorted_classes = enrollments_report(stud_data)
+            for key in sorted_classes:
+                print(f"Class {key}:  {sorted_classes[key]} Student{"s" if sorted_classes[key] > 1 else ""}")
         elif command == "q":
             print("Quitting...!")
             break
