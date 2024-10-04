@@ -15,8 +15,10 @@ The program uses some simple python functions to interface with a dataset of stu
 • T[eacher]: <lastname>
 • B[us]: <number>
 • G[rade]: <number> [H[igh]|L[ow]]
+• C[lass]: <number> [T[eacher]|S[tudents]]
 • A[verage]: <number>
 • I[nfo]
+• Analyze: <G[rade] or T[eacher] or B[us]>
 • Q[uit]
 ```
 
@@ -33,7 +35,7 @@ Andy Duong <aduong52@calpoly.edu>
 
 ## Version History
 
-* 1a
-    * Initial Release
-    * Created main loop
-    * Put together logic functions backend
+* 1b
+    * Updated Release for Part b
+    * added more commands
+    * 
