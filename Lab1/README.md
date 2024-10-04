@@ -6,10 +6,14 @@ students.txt database management system
 
 The program uses some simple python functions to interface with a dataset of students from a sample school.
 
+## NOTE
+In order to show part b of the lab, the original files in the Lab1 directory will not work, the b side work was all done on the v2 files in the part2 directory.
+
 ## Executing program
 
 * cd into lab1 directory
-* run "python3 schoolsearch.py"
+* cd into part2 directory
+* run "python3 schoolsearch_v2.py"
 ```
 • S[tudent]: <lastname> [B[us]]
 • T[eacher]: <lastname>
@@ -36,6 +40,10 @@ Andy Duong <aduong52@calpoly.edu>
 ## Version History
 
 * 1b
-    * Updated Release for Part b
-    * added more commands
-    * 
+    * Updated Release to work over seperated Teacher an Student files
+    * Added more commands
+    * Incorporated analytics functions
+* 1a
+    * Initial Release
+    * Created main loop
+    * Put together logic functions backend
