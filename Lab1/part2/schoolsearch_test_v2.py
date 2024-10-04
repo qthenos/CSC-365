@@ -97,5 +97,23 @@ class TestSchoolSearch(unittest.TestCase):
     #TC-18 has to be tested manually
     #TC-19 has to be tested manually    
 
+    def test_TC20(self):
+        pass
+    def test_TC21(self):
+        pass
+    def test_TC22(self):
+        pass
+    def test_TC23(self):
+        pass
+    def test_TC24(self):
+        pass
+    def test_TC25(self):
+        pass
+    def test_TC26(self):
+        pass
+    def test_TC27(self):
+        pass
+
+
 if __name__ == "__main__":
     unittest.main()
